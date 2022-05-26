@@ -3,29 +3,37 @@
 #include <iostream>
 
 // constructor
-CalcList::CalcList() : CalcListInterface() {
-  header = new CalcNode; // create sentinels
+CalcList::CalcList():CalcListInterface()   {
+  header = new CalcNode; 
+
   trailer = new CalcNode;
 
   header->next = trailer; // have them point to each other
   trailer->prev = header;
   counter = 0;
   current = 0;
+  
 
 }
 // destructor
 CalcList::~CalcList() {
   while (!empty()) { // = remove all but sentinels
-    removeLastOperation();
+//    std::cout<<header<<std::endl;
+   //  std::cout<<trailer<<std::endl;
+    
+    removal(header->next);
+ //  removeLastOperation();
   }
   delete header; // remove the sentinels
   delete trailer;
+ // std::cout<<header<<std::endl;
+ //    std::cout<<trailer<<std::endl;
 }
+const CalcNode*CalcList::getfirst() const{return header;}
 
-bool CalcList::empty() const { return (header->next == nullptr); }
 
 void CalcList ::add_p(CalcNode *v, const double &E) {
-  ++counter;
+  ++counter_2;
   CalcNode *node = new CalcNode;
   node->next = v;
   node->num_of_node = v->prev->num_of_node;
@@ -34,160 +42,38 @@ void CalcList ::add_p(CalcNode *v, const double &E) {
 
  
 }
-
-
+/*
+bool CalcList::empty() const { return header==nullptr; }
+*/
 
 void CalcList::removal(CalcNode *v) { // remove node v
-  --counter;
-  CalcNode *ub = v->prev; // predecessor
-  CalcNode *wa = v->next; // successor
-  ub->next = wa;          // unlink v from list
-  wa->prev = ub;
+
+  if(empty()){throw("Error on re");}
+  else{
+  --counter_2;
+  CalcNode *b = v->prev; // predecessor
+  std:: cout<<b;
+  
+  CalcNode *a = v->next; // successor
+  std::cout<<a<<"removal 1\n";
+  b->next = a;// unlink v from list
+  std::cout<<a<<"removal2\n";
+  
+  a->prev = b;
+  std::cout<<b<<"removal3\n";
+  
   delete v;
-}
+
+  std::cout<<counter<<"counter removal";
+      }
+  }
 
 double CalcList::total() const { return current; }
 
 void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
 
-  //  double res;
 
-  // add(oper,0.0);
-  /*
-  switch(func)
-
-  {
-    case  ADDITION :
-
-     header->tot=res;
-     res+=operand;
-    header->next=trailer;
-    trailer->prev=header;
-
-
-    break;
-    case SUBTRACTION:
-      header->tot=res;
-      res -=operand;
-      header->next=trailer;
-      trailer->prev=header;
-
-    break;
-    case MULTIPLICATION :
-      header->tot=res;
-      res =res *operand;
-      header->next=trailer;
-      trailer->prev=header;
-    break;
-    case DIVISION:
-      header->tot=res;
-      res=res/operand;
-     header->next=trailer;
-      trailer->prev=header;
-
-
-    break;
-
-
-   default:
-                throw std::invalid_argument("AddPositiveIntegers arguments must
-  be positive");
-
-            break;
-
-
-
-
-  }
-*/
-  /*
-  switch(func){
-     case  ADDITION :
-
-       oper->new_total=oper->total+operand;
-       oper->operation='+';
-       oper->operand=operand;
-      std::cout<< oper->operand;
-          std::cout<< oper->new_total;
-
-      break;
-      case SUBTRACTION:
-         oper->new_total=oper->total-operand;
-       oper->operation='-';
-       oper->operand=operand;
-
-
-      break;
-      case MULTIPLICATION :
-       oper->new_total=oper->total*operand;
-       oper->operation='*';
-       oper->operand=operand;
-       std::cout<< oper->operand;
-      break;
-      case DIVISION:
-
-    if(operand==0){
-        throw("No 0");
-
-    }
-       oper->new_total=oper->total/operand;
-       oper->operation='/';
-       oper->operand=operand;
-           std::cout<< oper->operand;
-      break;
-
-
-     default:
-                  throw ("Integers arguments must be positive");
-
-              break;
-
-  }
-    */
-  /*
-   CalcNode *oper= new CalcNode;
-  CalcNode *tail = nullptr;
-  //add(tail,0.0);
-
-  oper->pv=current;
-  oper->op2=operand;
-  if(func==ADDITION){
-    oper->tot=oper
-    current+=operand;
-  oper->opop=ADDITION;
-  }
-   else if(func==SUBTRACTION){
-    current-=operand;
-  oper->opop=SUBTRACTION;
-  }
-   else if(func==MULTIPLICATION){
-
-
-      current*=operand;
-      oper->opop=MULTIPLICATION;
-
-  }
-   else   if(func==DIVISION){
-      if(operand==0){
-        delete oper;
-        throw std::invalid_argument ("NO");
-      }else{
-    current/=operand;
-  oper->opop=DIVISION;
-  }
-
-
-
-}
-tail=trailer->prev;
-  tail->next=oper;
-  oper->prev=tail;
-  oper->next=trailer;
-  trailer->prev=oper;
-  */
-  
-   
 
 
   CalcNode *oper = new CalcNode;
@@ -246,7 +132,7 @@ tail=trailer->prev;
 }
 
 void CalcList::removeLastOperation() {
- 
+ /*
   CalcNode *temp = header;
 
   if (header != nullptr) {
@@ -255,22 +141,21 @@ void CalcList::removeLastOperation() {
       delete header;
       counter--;
     }
-  }
+  }*/
   removal(trailer->prev);
-  // remove(trailer->prev);
 }
 
 std::string CalcList::toString(unsigned short precision) const {
   CalcNode *temp_node = trailer;
-  std::stringstream flow;
+
   std::string temp_st = "";
   int temp_int = counter_2;
-
+  std::stringstream flow;
   flow.precision(precision);
  
     
     while(temp_node != header) {
-
+     
     flow << temp_int << ":";
     flow << std::fixed << temp_node->prev->prev->num_of_node;
     if (temp_node->prev->temp_operation == ADDITION) {
