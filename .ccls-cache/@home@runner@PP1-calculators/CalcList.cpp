@@ -43,7 +43,7 @@ void CalcList ::add_p(CalcNode *v, const double &E) {
  
 }
 /*
-bool CalcList::empty() const { return header==nullptr; }
+bool CalcList::sec_empty() const { return header==nullptr; }
 */
 
 void CalcList::removal(CalcNode *v) { // remove node v
@@ -104,26 +104,26 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
     break;
   case DIVISION:
 
-    if (operand == 0) {
-      removeLastOperation();
-      throw("No 0");
-      break;
-    }
+    if (operand == 0) {removeLastOperation() ;throw("No 0");}
+      else{
+    
     total_oper = current / operand;
     cal = '/';
 
     break;
-
+        }
   default:
     throw("Integers arguments must be positive");
 
     break;
   }
-  oper->total = total_oper;
+  oper->new_total = total_oper;
   oper->temp_oper = cal;
   oper->temp_operand = operand;
-  oper->total = current;
+  oper->temp_total = current;
+  
   current = total_oper;
+  
   oper->next = header;
   header = oper;
 
@@ -142,8 +142,17 @@ void CalcList::removeLastOperation() {
       counter--;
     }
   }*/
-  removal(trailer->prev);
-}
+  //removal(trailer->prev);
+   if(empty()){throw("Not the end");}else{
+    CalcNode *new_node=header;
+     current=new_node->temp_total;
+     header=header->next;
+     delete new_node;
+     counter--;
+     
+   }
+  }
+
 
 std::string CalcList::toString(unsigned short precision) const {
   CalcNode *temp_node = trailer;

@@ -21,7 +21,7 @@ TEST_CASE("PP1: Test Cases for CalcList") {
   SECTION("Total should be initially zero") {
     REQUIRE(calc.total() == 0.0l);
   }
-
+//fail  error on removal
   SECTION("Operations should be removable") {
     calc.newOperation(SUBTRACTION, 10);
     REQUIRE(calc.total() == -10.0l);
@@ -29,7 +29,7 @@ TEST_CASE("PP1: Test Cases for CalcList") {
     calc.removeLastOperation();
     REQUIRE(calc.total() == 0.0l);
   }
-
+//fail error on removal
   SECTION("Zero multiplication operation should be removable") {
     calc.newOperation(ADDITION, 50);
     calc.newOperation(MULTIPLICATION, 0);
@@ -51,7 +51,7 @@ TEST_CASE("PP1: Test Cases for CalcList") {
     REQUIRE_THROWS(calc.removeLastOperation());
 
     REQUIRE_NOTHROW(calc.newOperation(DIVISION, 10));
-    REQUIRE_NOTHROW(calc.removeLastOperation());
+    REQUIRE_NOTHROW(calc.removeLastOperation());    //removl failed
     REQUIRE_THROWS(calc.removeLastOperation());
   }
 

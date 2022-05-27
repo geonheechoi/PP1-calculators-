@@ -24,8 +24,8 @@ class CalcNode{
 */
   friend class CalcList;
   double temp_operand=0.0;
-  double total=0.0;
-  double new_total=0.0;
+ double new_total=0.0;
+  double temp_total=0.0;
   char temp_oper=0.0;
   double num_of_node=0.0;
     double current=0.0;
@@ -67,7 +67,7 @@ public:
   void newOperation(const FUNCTIONS func, const double operand);
   void removeLastOperation();
   std::string toString(unsigned short precision) const;
- 
+ //bool sec_empty() const;
   const CalcNode* getfirst() const;
 };
 
