@@ -3,9 +3,9 @@
 #include <iostream>
 
 // constructor
-CalcList::CalcList()  {
+CalcList::CalcList() :CalcListInterface() {
 //  header = new CalcNode; 
-header=nullptr;
+  header=nullptr;
 //trailer = new CalcNode;
 //  header->next = trailer; // have them point to each other
 //  trailer->prev = header;
@@ -25,7 +25,7 @@ double CalcList::total() const { return current_t; }
 const CalcNode*CalcList::getfirst() const{return header;}
 
 
-/*
+
 void CalcList ::add_p(CalcNode *v, const double &E) {
   ++counter_2;
   CalcNode *node = new CalcNode;
@@ -36,7 +36,7 @@ void CalcList ::add_p(CalcNode *v, const double &E) {
 
  
 }
-*/
+
 /*
 bool CalcList::sec_empty() const { return header==nullptr; }
 */
@@ -76,28 +76,28 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
 
   char cal;
-  double total_oper;
+  double total_r;
 
   switch (func) {
   case ADDITION:
-    total_oper = current_t + operand;
+    total_r = current_t + operand;
     cal = '+';
     break;
   case SUBTRACTION:
-    total_oper = current_t - operand;
+    total_r = current_t - operand;
     cal = '-';
     break;
   case MULTIPLICATION:
-    total_oper = current_t * operand;
+    total_r = current_t * operand;
     cal = '*';
     break;
   case DIVISION:
     if (operand == 0){  /* division by zero now allowed */
                 throw("Invalid Operation");
                 break;
-    //    removeLastOperation();
+     //  removeLastOperation();
             }
-            total_oper = current_t / operand;
+            total_r = current_t / operand;
             cal= '/';
             break;
         default:
@@ -105,12 +105,12 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
             break;
   }
   CalcNode *oper = new CalcNode;
-  oper->new_total = total_oper;
+  oper->new_total = total_r;
   oper->temp_oper = cal;
   oper->temp_operand = operand;
   oper->temp_total = current_t;
   
-  current_t = total_oper;
+  current_t = total_r;
   
   oper->next = header;
   header = oper;
@@ -261,7 +261,7 @@ new_total = prev->temp_total; // removes last operation
     }
     else{
         CalcNode* new_node = header;
-        current_t = new_node->new_total;
+        current_t = new_node->temp_total;
         header = header->next;
 
         delete new_node;

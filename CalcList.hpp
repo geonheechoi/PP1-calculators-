@@ -17,12 +17,12 @@ class CalcNode{
 
   friend class CalcList;
   double temp_operand;  //nodes_operand
- double new_total; //currenttotal
+   double new_total; //currenttotal
   double temp_total;  //prev total
   char temp_oper; //currentoperator
-  double num_of_node; //double nodes_total = 0.0;
+ // double num_of_node; //double nodes_total = 0.0;
 
-  FUNCTIONS temp_operation;  //nodes_operator
+//  FUNCTIONS temp_operation;  //nodes_operator
 //  CalcNode *prev=nullptr; // previous node in list
   CalcNode *next; // next node in list
 
@@ -35,6 +35,7 @@ private:
    CalcNode* header;
 //CalcNode* trailer;
   double current_t;//runningtotal
+  double value;
    int counter;
    char opop;
 // double temp_total=0.0;
@@ -59,8 +60,9 @@ public:
   void removeLastOperation();
   std::string toString(unsigned short precision) const;
  //bool sec_empty() const;
-  const CalcNode* getfirst() const;
   bool empty() const;
+  const CalcNode* getfirst() const;
+
 /*
 {
     return header->next=trailer;
