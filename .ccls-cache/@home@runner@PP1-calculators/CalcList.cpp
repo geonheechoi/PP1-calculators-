@@ -5,7 +5,7 @@
 // constructor
 CalcList::CalcList() :CalcListInterface() {
 //  header = new CalcNode; 
-  header=nullptr;
+header=nullptr;
 //trailer = new CalcNode;
 //  header->next = trailer; // have them point to each other
 //  trailer->prev = header;
@@ -25,7 +25,7 @@ double CalcList::total() const { return current_t; }
 const CalcNode*CalcList::getfirst() const{return header;}
 
 
-
+/*
 void CalcList ::add_p(CalcNode *v, const double &E) {
   ++counter_2;
   CalcNode *node = new CalcNode;
@@ -36,7 +36,7 @@ void CalcList ::add_p(CalcNode *v, const double &E) {
 
  
 }
-
+*/
 /*
 bool CalcList::sec_empty() const { return header==nullptr; }
 */
