@@ -3,35 +3,29 @@
 #include <iostream>
 
 // constructor
-CalcList::CalcList():CalcListInterface()   {
-  header = new CalcNode; 
-
-  trailer = new CalcNode;
-
-  header->next = trailer; // have them point to each other
-  trailer->prev = header;
+CalcList::CalcList()  {
+//  header = new CalcNode; 
+header=nullptr;
+//trailer = new CalcNode;
+//  header->next = trailer; // have them point to each other
+//  trailer->prev = header;
   counter = 0;
-  current = 0;
-  
-
+  current_t = 0;
 }
 // destructor
 CalcList::~CalcList() {
-  while (!empty()) { // = remove all but sentinels
-//    std::cout<<header<<std::endl;
-   //  std::cout<<trailer<<std::endl;
-    
-    removal(header->next);
- //  removeLastOperation();
+  while (!empty()) { 
+ //  removal(header->next);
+ removeLastOperation();
   }
-  delete header; // remove the sentinels
-  delete trailer;
- // std::cout<<header<<std::endl;
- //    std::cout<<trailer<<std::endl;
+
 }
+bool CalcList::empty() const{ return header == nullptr; }
+double CalcList::total() const { return current_t; }
 const CalcNode*CalcList::getfirst() const{return header;}
 
 
+/*
 void CalcList ::add_p(CalcNode *v, const double &E) {
   ++counter_2;
   CalcNode *node = new CalcNode;
@@ -42,13 +36,14 @@ void CalcList ::add_p(CalcNode *v, const double &E) {
 
  
 }
+*/
 /*
 bool CalcList::sec_empty() const { return header==nullptr; }
 */
-
+/*
 void CalcList::removal(CalcNode *v) { // remove node v
 
-  if(empty()){throw("Error on re");}
+  if(empty()){throw("Error on removal");}
   else{
   --counter_2;
   CalcNode *b = v->prev; // predecessor
@@ -64,11 +59,11 @@ void CalcList::removal(CalcNode *v) { // remove node v
   
   delete v;
 
-  std::cout<<counter<<"counter removal";
+  std::cout<<counter_2<<"counter removal";
       }
   }
+*/
 
-double CalcList::total() const { return current; }
 
 void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
@@ -76,7 +71,7 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
 
 
-  CalcNode *oper = new CalcNode;
+  
  // add_p(oper,0.0)
 
 
@@ -85,44 +80,37 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
   switch (func) {
   case ADDITION:
-
-    total_oper = current + operand;
+    total_oper = current_t + operand;
     cal = '+';
-
     break;
   case SUBTRACTION:
-
-    total_oper = current - operand;
+    total_oper = current_t - operand;
     cal = '-';
-
     break;
   case MULTIPLICATION:
-
-    total_oper = current * operand;
+    total_oper = current_t * operand;
     cal = '*';
-
     break;
   case DIVISION:
-
-    if (operand == 0) {removeLastOperation() ;throw("No 0");}
-      else{
-    
-    total_oper = current / operand;
-    cal = '/';
-
-    break;
-        }
-  default:
-    throw("Integers arguments must be positive");
-
-    break;
+    if (operand == 0){  /* division by zero now allowed */
+                throw("Invalid Operation");
+                break;
+    //    removeLastOperation();
+            }
+            total_oper = current_t / operand;
+            cal= '/';
+            break;
+        default:
+            throw("Invalid Operation");
+            break;
   }
+  CalcNode *oper = new CalcNode;
   oper->new_total = total_oper;
   oper->temp_oper = cal;
   oper->temp_operand = operand;
-  oper->temp_total = current;
+  oper->temp_total = current_t;
   
-  current = total_oper;
+  current_t = total_oper;
   
   oper->next = header;
   header = oper;
@@ -131,40 +119,213 @@ void CalcList::newOperation(const FUNCTIONS func, const double operand) {
 
 }
 
-void CalcList::removeLastOperation() {
- /*
-  CalcNode *temp = header;
-
-  if (header != nullptr) {
-    if (header->next != nullptr) {
-      CalcNode *temp = header;
-      delete header;
-      counter--;
+void  CalcList::removeLastOperation() {
+ 
+//  CalcNode *temp = header;
+/*
+  if (header->next==trailer) {
+    throw(" no");
     }
-  }*/
-  //removal(trailer->prev);
-   if(empty()){throw("Not the end");}else{
+    else{
+// if (header->next != nullptr) {
+      CalcNode *temp = header;
+    //  delete header;
+     // counter--;
+   // if(header->next!=)
+//temp = trailer->prev->prev;
+//temp->next = trailer;
+//trailer->prev = temp;
+CalcNode *temp2;
+temp = trailer->prev->prev;
+temp2 = temp->next;
+temp->next = trailer;
+trailer->prev = temp;
+current=temp->new_total;
+      
+      
+
+  
+    }
+}
+  */
+  /*
+if(header == NULL){
+return;
+  }
+CalcNode* temp = header;
+while(temp->next != nullptr)
+{
+temp = temp->next;
+}
+temp->prev->next = nullptr;
+ temp_total= temp->prev->new_total;
+delete temp;
+counter_2--;
+  }
+*/
+  /*
+CalcNode *temp;
+if(header==NULL||counter==1)
+{
+counter--;
+if(header->temp_oper=='*')
+{
+temp_total/=-header->temp_oper;
+}
+else if(header->temp_oper=='/')
+{
+temp_total*=header->temp_oper;
+}
+else if(header->temp_oper=='-')
+{
+temp_total+=header->temp_oper;
+}
+else
+{
+temp_total-=header->temp_oper;
+}
+header=NULL;
+}
+else
+{
+counter--;
+if(header->temp_oper=='*')
+{
+temp_total/=header->temp_oper;
+}
+else if(header->temp_oper=='/')
+{
+temp_total*=header->temp_oper;
+}
+else if(header->temp_oper=='-')
+{
+temp_total+=header->temp_oper;
+}
+else
+{
+temp_total-=header->temp_oper;
+}
+temp=header;
+header->next->prev=nullptr;
+header=temp->next;
+delete temp;
+}
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+  
+  /*
+CalcNo0de* noOperations = header;
+ CalcNode* prev = trailer->prev->prev; // points to the node before the one 
+ CalcNode* current = prev->next; // points to node that will be 
+ counter_2--;
+  
+ // does nothing if no operations have been done
+ if (noOperations->next->next == trailer) {
+ throw std::invalid_argument("no operations to remove");
+ return;
+ }
+new_total = prev->temp_total; // removes last operation
+ // unlink node and delete it
+ prev->next = trailer;
+ trailer->prev = prev;
+ delete current;
+*/
+
+  
+  
+ //removal(trailer->next);
+/*
+  if(empty()){throw("Error on removelastoperation"); }else{
     CalcNode *new_node=header;
      current=new_node->temp_total;
      header=header->next;
      delete new_node;
-     counter--;
-     
-   }
+
+     counter_2--;
+
   }
+  */
+  if(empty()){
+       throw("Invalid. Empty List");
+    }
+    else{
+        CalcNode* new_node = header;
+        current_t = new_node->new_total;
+        header = header->next;
+
+        delete new_node;
+
+        counter--;
+    }
+}
 
 
+
+
+  
+  /*
+   CalcNode *trailer = header; // save current head
+    header = trailer->next;
+    temp_total = header->new_total;
+    delete trailer; // delete the old head
+*/
+
+std::string CalcList::toString(unsigned short precision) const{
+    CalcNode* node = header;
+    std::string strPrint = "";
+    int i = counter;
+
+    while(node != nullptr){
+        std::stringstream strCurrTotal;
+        strCurrTotal << std::fixed << std::setprecision(precision) << node->new_total;
+
+        std::stringstream strOperand;
+        strOperand << std::fixed << std::setprecision(precision) << node->temp_operand;
+    
+        std::stringstream strPreviousTotal;
+        strPreviousTotal << std::fixed << std::setprecision(precision) << node->temp_total;
+
+        strPrint = strPrint + std::to_string(i) + ": " + strPreviousTotal.str() + node->temp_oper + strOperand.str() + "=" + strCurrTotal.str() + "\n";
+
+        i--;
+        node = node->next;
+
+    }
+    return strPrint;
+}
+  
+  
+   
+   
+
+  
+
+/*
 std::string CalcList::toString(unsigned short precision) const {
+
+  
   CalcNode *temp_node = trailer;
 
   std::string temp_st = "";
   int temp_int = counter_2;
-  std::stringstream flow;
-  flow.precision(precision);
  
-    
+    std::stringstream flow;
+       flow.precision(precision);
+ 
+   
     while(temp_node != header) {
-     
+  
     flow << temp_int << ":";
     flow << std::fixed << temp_node->prev->prev->num_of_node;
     if (temp_node->prev->temp_operation == ADDITION) {
@@ -186,6 +347,8 @@ std::string CalcList::toString(unsigned short precision) const {
      temp_node = temp_node->prev;
     --temp_int;
   }
+  
   temp_st = flow.str();
-  return temp_st;
+  return temp_st;  
 }
+*/
